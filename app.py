@@ -171,28 +171,27 @@ if selected == "History":
 
 
 # ===================== BULK PREDICTION PAGE =====================
+# ===================== BULK PREDICTION PAGE =====================
 if selected == "Bulk Prediction":
 
     st.title("Bulk Prediction (Multiple Patients)")
-
-    st.write("Upload a CSV file to predict Parkinson's Disease for multiple patients.")
+    st.write("Upload a 24-column CSV file for Parkinson's Disease analysis.")
 
     uploaded_file = st.file_uploader("Upload CSV File", type=["csv"])
 
     if uploaded_file is not None:
-
         df = pd.read_csv(uploaded_file)
 
         st.write("### Uploaded Data")
         st.dataframe(df)
 
         try:
-            # Validate column count
             if df.shape[1] != 24:
-                st.error("CSV must contain exactly 24 columns!")
+                st.error(f"Error: CSV must contain exactly 24 columns! Your file has {df.shape[1]}.")
             else:
-                input_data = df.values
-
+                input_df = df.drop(columns=['name', 'status'], errors='ignore')
+                
+                input_data = input_df.values
                 predictions = loaded_model.predict(input_data)
 
                 df["Prediction"] = [
@@ -201,14 +200,15 @@ if selected == "Bulk Prediction":
                 ]
 
                 st.write("### Prediction Results")
+                st.success("24-column dataset processed successfully!")
                 st.dataframe(df)
 
-                # Download result
+                
                 csv = df.to_csv(index=False).encode('utf-8')
                 st.download_button(
                     label="Download Results as CSV",
                     data=csv,
-                    file_name="parkinsons_predictions.csv",
+                    file_name="parkinsons_results.csv",
                     mime="text/csv"
                 )
 
