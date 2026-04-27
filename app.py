@@ -38,7 +38,7 @@ with st.sidebar:
 # ===================== PREDICTION PAGE =====================
 if selected == "Prediction":
 
-    st.title("🧠 Parkinson's Disease Prediction Web App")
+    st.title("Parkinson's Disease Prediction Web App")
 
     st.write("Enter the following voice measurement values to predict Parkinson's Disease.")
 
@@ -102,10 +102,10 @@ if selected == "Prediction":
 # ===================== VISUALIZATION PAGE =====================
 if selected == "Visualization":
 
-    st.title("📊 Data Visualization")
+    st.title("Data Visualization")
 
     if "input_values" not in st.session_state:
-        st.warning("⚠️ Please enter values in Prediction page and click Predict first!")
+        st.warning("Please enter values in Prediction page and click Predict first!")
     else:
         data = st.session_state["input_values"]
 
@@ -136,7 +136,7 @@ if selected == "Visualization":
 # ===================== HISTORY PAGE =====================
 if selected == "History":
 
-    st.title("📜 Prediction History")
+    st.title("Prediction History")
 
     cursor.execute("SELECT * FROM predictions ORDER BY timestamp DESC")
     data = cursor.fetchall()
@@ -146,7 +146,7 @@ if selected == "History":
     else:
         df = pd.DataFrame(data, columns=["ID", "Fo", "Fhi", "Flo", "Result", "Time"])
 
-        st.markdown("### 📊 Summary")
+        st.markdown("### Summary")
         col1, col2 = st.columns(2)
 
         with col1:
@@ -173,7 +173,7 @@ if selected == "History":
 # ===================== BULK PREDICTION PAGE =====================
 if selected == "Bulk Prediction":
 
-    st.title("📂 Bulk Prediction (Multiple Patients)")
+    st.title("Bulk Prediction (Multiple Patients)")
 
     st.write("Upload a CSV file to predict Parkinson's Disease for multiple patients.")
 
@@ -188,8 +188,8 @@ if selected == "Bulk Prediction":
 
         try:
             # Validate column count
-            if df.shape[1] != 22:
-                st.error("❌ CSV must contain exactly 22 columns!")
+            if df.shape[1] != 200:
+                st.error("CSV must contain exactly 22 columns!")
             else:
                 input_data = df.values
 
@@ -206,7 +206,7 @@ if selected == "Bulk Prediction":
                 # Download result
                 csv = df.to_csv(index=False).encode('utf-8')
                 st.download_button(
-                    label="📥 Download Results as CSV",
+                    label="Download Results as CSV",
                     data=csv,
                     file_name="parkinsons_predictions.csv",
                     mime="text/csv"
