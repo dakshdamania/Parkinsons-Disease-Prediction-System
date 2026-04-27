@@ -188,7 +188,7 @@ if selected == "Bulk Prediction":
 
         try:
             # Validate column count
-            if df.shape[1] != 200:
+            if df.shape[1] != 22:
                 st.error("CSV must contain exactly 22 columns!")
             else:
                 input_data = df.values
